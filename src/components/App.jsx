@@ -1,44 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactsTitle, Container, Title } from './App.css';
+import { addContact, removeContact } from '../redux/contactsSlice';
+import { setFilter } from '../redux/filterSlice';
 
 export const App = () => {
-  const [contacts, setContacts] = useState([
-    { id: 'id-1', name: 'Rosie Simpson', tel: '459-12-56' },
-    { id: 'id-2', name: 'Hermione Kline', tel: '443-89-12' },
-    { id: 'id-3', name: 'Eden Clements', tel: '645-17-79' },
-    { id: 'id-4', name: 'Annie Copeland', tel: '227-91-26' },
-  ]);
-  const [filter, setFilter] = useState('');
+  const contacts = useSelector(state => state.contacts);
+  const filter = useSelector(state => state.filter);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const storedContacts = localStorage.getItem('contacts');
-    if (storedContacts) {
-      setContacts(JSON.parse(storedContacts));
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
-
-  const addContact = newContact => {
-    const isExistingContact = contacts.some(
-      contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
-    );
-
-    if (isExistingContact) {
-      alert(`${newContact.name} is already in contacts.`);
-      return;
-    }
-
-    setContacts([...contacts, newContact]);
+  const handleAddContact = newContact => {
+    dispatch(addContact(newContact));
   };
 
-  const removeContact = contactId => {
-    setContacts(contacts.filter(contact => contact.id !== contactId));
+  const handleRemoveContact = contactId => {
+    dispatch(removeContact(contactId));
+  };
+
+  const handleFilterChange = filterValue => {
+    dispatch(setFilter(filterValue));
   };
 
   const filteredContacts = contacts.filter(contact =>
@@ -48,10 +31,13 @@ export const App = () => {
   return (
     <Container>
       <Title>Phonebook</Title>
-      <ContactForm addContact={addContact} />
+      <ContactForm addContact={handleAddContact} />
       <ContactsTitle>Contacts list:</ContactsTitle>
-      <Filter filter={filter} setFilter={setFilter} />
-      <ContactList contacts={filteredContacts} removeContact={removeContact} />
+      <Filter filter={filter} setFilter={handleFilterChange} />
+      <ContactList
+        contacts={filteredContacts}
+        removeContact={handleRemoveContact}
+      />
     </Container>
   );
 };

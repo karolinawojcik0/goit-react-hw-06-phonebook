@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { nanoid } from 'nanoid';
-import { ButtonForm, FormLabel, InputLabel } from './ContactForm.css';
+import {
+  ButtonForm,
+  FormLabel,
+  FormSubmit,
+  InputLabel,
+} from './ContactForm.css';
 
 export const ContactForm = ({ addContact }) => {
   const [name, setName] = useState('');
@@ -28,7 +33,7 @@ export const ContactForm = ({ addContact }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <FormSubmit onSubmit={handleSubmit}>
       <FormLabel>
         Name:
         <InputLabel
@@ -56,6 +61,6 @@ export const ContactForm = ({ addContact }) => {
       <ButtonForm button type="submit">
         Add contact
       </ButtonForm>
-    </form>
+    </FormSubmit>
   );
 };

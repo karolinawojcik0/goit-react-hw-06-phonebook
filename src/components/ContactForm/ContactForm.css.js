@@ -1,10 +1,16 @@
 import styled from "styled-components";
 
+export const FormSubmit = styled.form`
+display: flex;
+gap: 100px;`
+
 export const FormLabel = styled.label`
 font-size: 20px;`
 
 export const InputLabel = styled.input`
-margin: 10px`
+border-radius: 5px;
+height: 36px;
+`
 
 export const ButtonForm = styled.button`
     width: 20px;

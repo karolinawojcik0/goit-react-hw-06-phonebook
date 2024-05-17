@@ -8,7 +8,7 @@ export const Filter = ({ filter, setFilter }) => {
   return (
     <input
       type="text"
-      placeholder="Search by name"
+      placeholder="Szukaj po imieniu"
       value={filter}
       onChange={handleFilterChange}
     />
